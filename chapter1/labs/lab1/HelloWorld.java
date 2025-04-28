@@ -1,4 +1,4 @@
-package lab1;
+package chapter1.labs.lab1;
 
 /**
  * 첫 번째 자바 프로그램 - Hello World
