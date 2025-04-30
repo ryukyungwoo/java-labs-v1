@@ -17,6 +17,13 @@ public class IfStatementLab {
         // 양수이면 "양수입니다."
         // 음수이면 "음수입니다."
         // 0이면 "0입니다."
+        if (number > 0 ) {
+            System.out.println("양수입니다");
+        } else if (number < 0) {
+            System.out.println("음수입니다");
+        } else {
+            System.out.println("0입니다");
+        }
         
         
         // 2. 두 숫자를 입력받아 큰 수를 출력하는 프로그램
@@ -27,8 +34,15 @@ public class IfStatementLab {
         
         // TODO: 두 숫자 중 큰 수를 출력하세요.
         // 만약 두 수가 같다면 "두 수는 같습니다."라고 출력하세요.
-        
-        
+        if (num1 < num2) {
+            System.out.println(num2 + "가 더 큽니다");
+        } else if (num1 > num2) {
+            System.out.println(num1 + "가 더 큽니다");
+        } else {
+            System.out.println("두 수는 같습니다");
+        }
+
+
         // 3. 점수를 입력받아 학점을 출력하는 프로그램
         System.out.println("\n시험 점수를 입력하세요 (0-100): ");
         int score = scanner.nextInt();
@@ -40,7 +54,20 @@ public class IfStatementLab {
         // 60-69: "D"
         // 0-59: "F"
         // 범위를 벗어난 점수: "잘못된 점수입니다."
-        
+
+        if (score >= 90 && score <= 100) {
+            System.out.println("A 등급");
+        } else if (score >= 80 && score <= 89) {
+            System.out.println("B 등급");
+        } else if (score >= 70 && score <= 79) {
+            System.out.println("C 등급");
+        } else if (score >= 60 && score <= 69) {
+            System.out.println("D 등급");
+        } else if (score >= 0 && score <= 59) {
+            System.out.println("F 등급");
+        } else {
+            System.out.println("잘못된 점수입니다.");
+        }
         
         scanner.close();
     }

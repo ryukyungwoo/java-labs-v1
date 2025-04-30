@@ -22,6 +22,15 @@ public class StarPatternLab {
         // *****
         
         // TODO: 위와 같은 패턴을 출력하세요.
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < height; x++) {
+                if(x <= y) {
+                    System.out.print("*");
+                }
+            }
+            System.out.println(" ");
+        }
+
         
         
         // 2. 직각삼각형 패턴 (오른쪽 정렬)
@@ -34,6 +43,16 @@ public class StarPatternLab {
         // *****
         
         // TODO: 위와 같은 패턴을 출력하세요.
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x< height; x++) {
+                if(height - y - 1 <= x) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
         
         
         // 3. 피라미드 패턴
@@ -46,6 +65,23 @@ public class StarPatternLab {
         // *********
         
         // TODO: 위와 같은 패턴을 출력하세요.
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x< height; x++) {
+                if(height - y - 1 <= x) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            for(int x = height; x < 2 * height; x++) {
+                if(x <= height + y - 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
         
         
         // 4. 역삼각형 패턴
@@ -58,6 +94,23 @@ public class StarPatternLab {
         //     *
         
         // TODO: 위와 같은 패턴을 출력하세요.
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < height; x++) {
+                if(x >= y) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            for(int x = height; x < 2 * height; x++) {
+                if(x < 2 * height - y - 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
         
         
         // 5. 다이아몬드 패턴
@@ -74,7 +127,40 @@ public class StarPatternLab {
         //     *
         
         // TODO: 위와 같은 패턴을 출력하세요.
-        
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x< height; x++) {
+                if(height - y - 1 <= x) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            for(int x = height; x < 2 * height; x++) {
+                if(x <= height + y - 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+        for(int y = height; y < 2* height; y++) {
+            for(int x = 0; x < height; x++) {
+                if(x + height > y) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            for (int x = height; x < 2 * height; x++) {
+                if (x < 2 * (height- 1) - (y - height)) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
         
         // 6. 모래시계 패턴
         System.out.println("\n6. 모래시계 패턴");
@@ -90,7 +176,33 @@ public class StarPatternLab {
         // *********
         
         // TODO: 위와 같은 패턴을 출력하세요.
-        
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < height; x++) {
+                if(x >= y) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            for(int x = height; x < 2 * height; x++) {
+                if(x < 2 * height - y - 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+        for(int y = height; y < 2 * height; y++) {
+            for(int x = 0; x < height; x++) {
+                if(x >= y - height) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
         
         // 7. 숫자 피라미드 패턴
         System.out.println("\n7. 숫자 피라미드 패턴");
@@ -102,7 +214,6 @@ public class StarPatternLab {
         // 123454321
         
         // TODO: 위와 같은 패턴을 출력하세요.
-        
         
         scanner.close();
     }
