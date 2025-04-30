@@ -193,9 +193,16 @@ public class StarPatternLab {
             }
             System.out.println();
         }
-        for(int y = height; y < 2 * height; y++) {
+        for(int y = height; y < 2 * height - 1; y++) {
             for(int x = 0; x < height; x++) {
-                if(x >= y - height) {
+                if(x >= height - (y - height) - 2) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            for(int x = height; x < 2 * height; x++) {
+                if(x <= y) {
                     System.out.print("*");
                 } else {
                     System.out.print(" ");
@@ -214,6 +221,27 @@ public class StarPatternLab {
         // 123454321
         
         // TODO: 위와 같은 패턴을 출력하세요.
+        for (int y = 1; y < height + 1; y++) {
+            int nowNum = 1;
+            for (int x = 1; x < height + 1; x++) {
+                if(height - y + 1<= x) {
+                    System.out.print(nowNum);
+                    nowNum++;
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            nowNum -= 1;
+            for (int x = height + 1; x < 2 * height + 1; x++) {
+                if(height + y > x) {
+                    nowNum--;
+                    System.out.print(nowNum);
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
         
         scanner.close();
     }
