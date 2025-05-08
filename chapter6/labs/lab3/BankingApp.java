@@ -90,7 +90,24 @@ public class BankingApp {
     private static void createAccount(Scanner scanner, BankingSystem bankingSystem) {
         // TODO: 사용자로부터 계좌번호, 예금주 이름, 초기 잔액을 입력받아 계좌를 생성하세요.
         // TODO: IllegalArgumentException을 처리하세요.
-        
+        try {
+            System.out.print("계좌번호를 입력하세요: ");
+            String accountNumber = scanner.nextLine();
+            System.out.println();
+
+            System.out.print("예금주 이름을 입력하세요: ");
+            String ownerName = scanner.nextLine();
+            System.out.println();
+
+            System.out.print("초기 잔액을 입력하세요: ");
+            double initialBalance = scanner.nextDouble();
+            System.out.println();
+
+            bankingSystem.createAccount(accountNumber, ownerName, initialBalance);
+        } catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException");
+            System.out.println(e.getMessage());
+        }
     }
     
     /**
@@ -99,7 +116,14 @@ public class BankingApp {
     private static void viewAccount(Scanner scanner, BankingSystem bankingSystem) {
         // TODO: 사용자로부터 계좌번호를 입력받아 계좌 정보를 조회하세요.
         // TODO: InvalidAccountException을 처리하세요.
-        
+        try {
+            String searchAccountNumber = scanner.nextLine();
+            bankingSystem.getAccount(searchAccountNumber);
+
+        } catch (InvalidAccountException e) {
+            System.out.println("InvalidAccountException");
+            System.out.println(e.getMessage());
+        }
     }
     
     /**
@@ -108,7 +132,23 @@ public class BankingApp {
     private static void deposit(Scanner scanner, BankingSystem bankingSystem) {
         // TODO: 사용자로부터 계좌번호와 입금액을 입력받아 입금 처리하세요.
         // TODO: InvalidAccountException과 IllegalArgumentException을 처리하세요.
-        
+
+        try {
+            String targetAccountNumber = scanner.nextLine();
+            double deposit = scanner.nextDouble();
+
+            BankAccount targetAccount = bankingSystem.getAccount(targetAccountNumber);
+
+            targetAccount.deposit(deposit);
+
+        } catch (InvalidAccountException e) {
+            System.out.println("InvalidAccountException");
+            System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException");
+            System.out.println(e.getMessage());
+        }
+
     }
     
     /**
@@ -117,7 +157,21 @@ public class BankingApp {
     private static void withdraw(Scanner scanner, BankingSystem bankingSystem) {
         // TODO: 사용자로부터 계좌번호와 출금액을 입력받아 출금 처리하세요.
         // TODO: InvalidAccountException, InsufficientBalanceException, IllegalArgumentException을 처리하세요.
-        
+        try {
+            String targetAccountNumber = scanner.nextLine();
+            double withdrawDeposit = scanner.nextDouble();
+
+            BankAccount targetAccount = bankingSystem.getAccount(targetAccountNumber);
+            targetAccount.withdraw(withdrawDeposit);
+
+        } catch (InvalidAccountException e) {
+            System.out.println("InvalidAccountException");
+            System.out.println(e.getMessage());
+        } catch (InsufficientBalanceException e) {
+            System.out.println("InsufficientBalanceException");
+            System.out.println(e.getMessage());
+        }
+
     }
     
     /**
@@ -126,6 +180,18 @@ public class BankingApp {
     private static void transfer(Scanner scanner, BankingSystem bankingSystem) {
         // TODO: 사용자로부터 출금 계좌번호, 입금 계좌번호, 이체 금액을 입력받아 이체 처리하세요.
         // TODO: InvalidAccountException, InsufficientBalanceException, IllegalArgumentException을 처리하세요.
-        
+        try {
+            String fromAccount = scanner.nextLine();
+            String toAccount = scanner.nextLine();
+            double amount = scanner.nextDouble();
+
+            bankingSystem.transfer(fromAccount, toAccount, amount);
+        } catch (InvalidAccountException e) {
+            System.out.println("InvalidAccountException");
+            System.out.println(e.getMessage());
+        } catch (InsufficientBalanceException e) {
+            System.out.println("InsufficientBalanceException");
+            System.out.println(e.getMessage());
+        }
     }
 } 

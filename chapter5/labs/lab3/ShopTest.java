@@ -57,6 +57,10 @@ public class ShopTest {
         
         // TODO: Discountable 인터페이스를 구현한 객체만 별도로 처리하기
         System.out.println("=== TODO: Discountable 인터페이스를 구현한 객체만 별도로 처리하기 ===\n");
-        discountedBook.discountInfo();
+        for (Buyable b : buyables) {
+            if(b instanceof Discountable) {
+                b.info();
+            }
+        }
     }
 } 

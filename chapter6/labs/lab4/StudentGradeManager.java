@@ -33,8 +33,19 @@ public class StudentGradeManager {
         // 동일한 ID를 가진 학생이 이미 있는지 확인하지 않고 있습니다.
         
         Student student = new Student(id, name, scores);
-        students.add(student);
-        System.out.println("학생을 추가했습니다: " + student);
+
+        boolean matchID = false;
+        for (Student nowStudent : students) {
+            if(student.id == nowStudent.id) {
+                matchID = true;
+            }
+        }
+        if (!matchID) {
+            students.add(student);
+            System.out.println("학생을 추가했습니다: " + student);
+        } else {
+            System.out.println("ID가 중복됩니다");
+        }
     }
     
     /**
@@ -77,7 +88,7 @@ public class StudentGradeManager {
                 }
                 
                 // 평균 계산
-                return sum / scores.length;
+                return (double) sum / scores.length;
             }
         }
         
@@ -94,12 +105,12 @@ public class StudentGradeManager {
         // 1. 리스트 수정 방법에 문제가 있습니다.
         // 2. 비교 로직에 문제가 있습니다.
         
-        List<Student> result = new ArrayList<>(students);  // 원본 리스트를 복사
+        List<Student> result = new ArrayList<>();  // 원본 리스트를 복사
         
-        for (Student student : result) {
+        for (Student student : students) {
             double average = calculateAverageScore(student.getId());
-            if (average <= threshold) {  // 의도와 다른 비교 연산자
-                result.remove(student);  // ConcurrentModificationException 발생 가능
+            if (average >= threshold) {  // 의도와 다른 비교 연산자
+                result.add(student);  // ConcurrentModificationException 발생 가능
             }
         }
         
@@ -147,7 +158,7 @@ public class StudentGradeManager {
         // 비교 조건에 문제가 있습니다.
         
         for (Student student : students) {
-            if (student.getId() != id) {  // 잘못된 비교 조건
+            if (student.getId() == id) {  // 잘못된 비교 조건
                 return student;
             }
         }
