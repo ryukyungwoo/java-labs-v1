@@ -1,9 +1,10 @@
 package chapter9.labs.lab1;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * 람다식 활용 실습
@@ -17,19 +18,22 @@ public class LambdaLab {
         
         // 1. 함수형 인터페이스 활용
         System.out.println("===== 함수형 인터페이스 활용 =====");
-        
+
         // TODO: Predicate<Integer> 타입의 람다식을 작성하여 짝수인지 검사하는 기능을 구현하세요.
         // 힌트: (num -> num % 2 == 0) 형태로 작성
+        Predicate<Integer> a = (num) -> num % 2 == 0;
 
         // TODO: Function<String, Integer> 타입의 람다식을 작성하여 문자열의 길이를 반환하는 기능을 구현하세요.
         // 힌트: String::length 메소드 참조 사용
+        Function<String, Integer> b = String::length;
 
         // TODO: Consumer<String> 타입의 람다식을 작성하여 문자열을 출력하는 기능을 구현하세요.
         // 힌트: System.out::println 메소드 참조 사용
+        Consumer<String> c = System.out::println;
         
         // TODO: Supplier<Double> 타입의 람다식을 작성하여 0.0~1.0 사이의 난수를 반환하는 기능을 구현하세요.
         // 힌트: Math::random 메소드 참조 사용
-        
+        Supplier<Double> d = Math::random;
         
         // 2. 리스트 정렬에 Comparator 활용
         System.out.println("\n===== 리스트 정렬 Comparator 활용 =====");

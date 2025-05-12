@@ -2,6 +2,7 @@ package chapter9.labs.lab2;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * 스트림 API 활용 실습
@@ -43,14 +44,18 @@ public class StreamLab {
         
         // TODO: 1에서 20까지의 정수 스트림을 생성하여 출력하세요.
         // 힌트: IntStream.rangeClosed(1, 20)...
-        
+        IntStream.rangeClosed(1, 20).forEach(System.out::println);
+
+
         // TODO: 문자열 배열에서 스트림을 생성하여 출력하세요.
         String[] subjects = {"국어", "영어", "수학", "과학", "사회"};
         // 힌트: Arrays.stream(subjects)...
+        Arrays.stream(subjects).forEach(System.out::println);
         
         // TODO: 리스트에서 스트림을 생성하여 출력하세요.
         List<String> cities = Arrays.asList("서울", "부산", "인천", "대구", "대전", "광주", "울산", "세종");
         // 힌트: cities.stream()...
+        cities.stream().toList().forEach(System.out::println);
         
         
         // 2. 중간 연산과 최종 연산 활용
@@ -60,7 +65,7 @@ public class StreamLab {
         
         // TODO: 짝수만 필터링하여 제곱한 후 평균을 계산하세요.
         // 힌트: numbers.stream().filter(...).map(...).average()
-        
+
         // TODO: 문자열 리스트에서 길이가 3 이상인 문자열만 대문자로 변환하세요.
         // 힌트: cities.stream().filter(...).map(...)
         

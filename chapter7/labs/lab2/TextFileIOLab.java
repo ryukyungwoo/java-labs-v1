@@ -43,19 +43,19 @@ public class TextFileIOLab {
                         createTextFile(scanner);
                         break;
                     case 2: // 계좌 조회
-                        readTextFile();
+                        readTextFile(scanner);
                         break;
                     case 3: // 입금
-                        searchTextInFile();
+                        searchTextInFile(scanner);
                         break;
                     case 4: // 출금
-                        replaceTextInFile();
+                        replaceTextInFile(scanner);
                         break;
                     case 5: // 계좌 이체
                         countFileStats();
                         break;
                     case 6: // 모든 계좌 보기
-                        appendToFile();
+                        appendToFile(scanner);
                         break;
                     case 7: // 종료
                         running = false;
@@ -108,10 +108,16 @@ public class TextFileIOLab {
         try {
             int inputNum = Integer.parseInt(scanner.nextLine());
 
+            if(inputNum < min && inputNum > max) {
+                System.out.println("범위 벗어남");
+                getIntInput(scanner, min, max);
+            }
+
 
 
         } catch (NumberFormatException e) {
-
+            System.out.println(e.getMessage());
+            getIntInput(scanner,min,max);
         }
 
         return 0; // 구현 후 이 줄을 수정하세요.
@@ -128,41 +134,37 @@ public class TextFileIOLab {
         // 2. 파일이 이미 존재하면 덮어쓸지 사용자에게 물어보기
         // 3. 사용자가 'n'을 입력하면 메소드 종료
 
-        String fileName = scanner.nextLine();
         List<String> inputList = new ArrayList<>();
 
-        File file = new File(fileName);
+        File file = new File(scanner.nextLine());
 
         if (file.exists()) {
-            System.out.println("덮어쓰시겠습니까?");
+            System.out.println("덮어쓰시겠습니까?(y/n)");
         }
 
-        String nextChoice = scanner.nextLine();
-
-        if(!nextChoice.equals("n")) {
-
-            // TODO: 사용자로부터 파일에 저장할 내용을 입력받으세요.
-            // 1. 빈 줄이 입력될 때까지 사용자 입력을 받기
-            // 2. 입력된 각 줄에 줄 번호 표시하기
-            // 3. 입력받은 내용을 List<String>에 저장
-
-            int lineNum = 0;
-            while (scanner.hasNext()) {
-                inputList.add(lineNum + ". " + scanner.nextLine());
-            }
+        if (scanner.nextLine().equals("n")) {
+            return;
         }
+        // TODO: 사용자로부터 파일에 저장할 내용을 입력받으세요.
+        // 1. 빈 줄이 입력될 때까지 사용자 입력을 받기
+        // 2. 입력된 각 줄에 줄 번호 표시하기
+        // 3. 입력받은 내용을 List<String>에 저장
 
+        int lineNumber = 0;
+        String line = "";
 
-
+        while ((line = scanner.nextLine()) != null && !line.isEmpty()) {
+            inputList.add(lineNumber + ". " + line);
+        }
 
         // TODO: BufferedWriter를 사용하여 입력받은 내용을 파일에 쓰세요.
         // 1. try-with-resources 구문 사용
         // 2. FileWriter와 BufferedWriter 생성
         // 3. 리스트의 각 줄을 파일에 쓰기 (newLine() 메소드 활용)
         // 4. 예외 처리 및 성공 메시지 출력
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("chapter7/labs/lab2"))) {
-            for (String line : inputList) {
-                writer.write(line);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("chapter7/labs/lab2/test.txt"))) {
+            for (String nowLine : inputList) {
+                writer.write(nowLine);
                 writer.newLine();
             }
             System.out.println("성공하였습니다.");
@@ -184,12 +186,11 @@ public class TextFileIOLab {
         File file;
 
         try {
-            file = new File("chapter7/labs/lab2/" + scanner.nextLine());
+            file = new File("chapter7/labs/lab2/test.txt");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return;
         }
-
 
         // TODO: BufferedReader를 사용하여 파일 내용을 읽고 출력하세요.
         // 1. try-with-resources 구문 사용
@@ -198,11 +199,10 @@ public class TextFileIOLab {
         // 4. 각 줄 앞에 줄 번호 붙여서 출력
         // 5. 예외 처리 및 완료 메시지 출력
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file.getName()))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("chapter7/labs/lab2/test.txt"))) {
             String line;
-            int lineNum = 0;
             while ((line = reader.readLine()) != null && !line.isEmpty()) {
-                System.out.println(lineNum + ". " + line);
+                System.out.println(line);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -218,12 +218,20 @@ public class TextFileIOLab {
 
         // TODO: 파일이 존재하는지 확인하세요.
         // 파일이 존재하지 않으면 에러 메시지 출력 후 리턴
-        if (!new File("chapter7/labs/lab2/" + scanner.nextLine()).exists()) {
+        if (!new File("chapter7/labs/lab2/test.txt").exists()) {
             throw new FileNotFoundException("파일이 없습니다.");
         }
 
         // TODO: 사용자로부터 검색할 텍스트와 대소문자 구분 여부를 입력받으세요.
+        System.out.print("검색할 텍스트: ");
+        String targetText = scanner.nextLine();
+        System.out.print("대소문자 구분 여부 (y/n): ");
+        String ignoreArguments = scanner.nextLine();
 
+        if (!ignoreArguments.equalsIgnoreCase("y") && !ignoreArguments.equalsIgnoreCase("n")) {
+            System.out.println("잘못된 입력입니다.");
+            searchTextInFile(scanner);
+        }
 
         // TODO: BufferedReader를 사용하여 파일을 읽으면서 검색어 찾기
         // 1. try-with-resources 구문 사용
@@ -232,26 +240,73 @@ public class TextFileIOLab {
         // 4. Pattern, Matcher 클래스를 활용하여 검색어 하이라이트
         // 5. 검색 결과 통계 출력 (몇 개의 일치 항목을 찾았는지)
         // 6. 예외 처리
+
+        int count = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader("chapter7/labs/lab2/test.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null && !line.isEmpty()) {
+                Pattern pattern1;
+                if (ignoreArguments.equalsIgnoreCase("y")) {
+                    pattern1 = Pattern.compile(targetText, Pattern.CASE_INSENSITIVE);
+                } else {
+                    pattern1 = Pattern.compile(targetText);
+                }
+
+                Matcher matcher1 = pattern1.matcher(line);
+
+                if (matcher1.find()) {
+                    count++;
+                    System.out.println(line);
+                }
+            }
+            System.out.println("일치 단어 갯수: " + count);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
      * 텍스트 파일에서 문자열 치환
      */
-    private static void replaceTextInFile(Scanner scanner) {
+    private static void replaceTextInFile(Scanner scanner) throws FileNotFoundException {
         // TODO: "텍스트 파일에서 문자열 치환하기" 타이틀을 출력하세요.
+
+        System.out.println("텍스트 파일에서 문자열 치환하기");
 
         // TODO: 파일이 존재하는지 확인하세요.
         // 파일이 존재하지 않으면 에러 메시지 출력 후 리턴
+        if (!new File("chapter7/labs/lab2/test.txt").exists()) {
+            throw new FileNotFoundException("파일이 없습니다.");
+        }
 
         // TODO: 사용자로부터 다음 정보를 입력받으세요:
         // 1. 찾을 텍스트
         // 2. 변경할 텍스트
         // 3. 대소문자 구분 여부 (y/n)
         // 4. 모든 일치 항목 변경 또는 첫 일치 항목만 변경 여부 (y/n)
+        System.out.print("찾을 텍스트: ");
+        String targetText = scanner.nextLine();
+        System.out.print("변경할 텍스트: ");
+        String wantChangeText = scanner.nextLine();
+        System.out.print("대소문자 구분 여부 (y/n): ");
+        String ignoreArgument = scanner.nextLine();
+        System.out.print("모든 일치 항목 변경 또는 첫 일치 항목만 변경 여부 (y/n): ");
+        String allOrFirst = scanner.nextLine();
 
         // TODO: 파일 내용을 List<String>으로 읽어오세요.
         // 1. try-with-resources 구문 사용
         // 2. BufferedReader를 사용하여 모든 줄을 리스트에 저장
+
+        List<String> readList = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("chapter7/labs/lab2/test.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null && !line.isEmpty()) {
+                readList.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
         // TODO: 각 줄에서 검색어를 찾아 치환하세요.
         // 1. 대소문자 구분 여부와 모든/첫 일치 항목 변경 여부에 따라 적절한 메소드 사용
@@ -259,21 +314,62 @@ public class TextFileIOLab {
         //    - 정규식 패턴 사용 시 Pattern.CASE_INSENSITIVE 플래그 활용
         // 2. 몇 개의 라인이 변경되었는지 카운트
 
+        List<String> modifiedList = new ArrayList<>();
+        int count = 0;
+
+        for(String nowLine : readList) {
+            Pattern pattern2;
+            if (ignoreArgument.equalsIgnoreCase("y")) {
+                pattern2 = Pattern.compile(targetText, Pattern.CASE_INSENSITIVE);
+            } else {
+                pattern2 = Pattern.compile(targetText);
+            }
+
+            Matcher matcher2 = pattern2.matcher(nowLine);
+
+            if (matcher2.find()) {
+                if (allOrFirst.equalsIgnoreCase("y")) {
+                    nowLine = matcher2.replaceAll(wantChangeText);
+                } else {
+                    nowLine = matcher2.replaceFirst(wantChangeText);
+                }
+                count++;
+            }
+            modifiedList.add(nowLine);
+            System.out.println("완료");
+        }
+
+
         // TODO: 변경된 내용을 파일에 다시 쓰세요.
         // 1. try-with-resources 구문 사용
         // 2. BufferedWriter를 사용하여 수정된 내용 쓰기
         // 3. 변경된 라인 수 출력
         // 4. 예외 처리
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("chapter7/labs/lab2/test.txt"))) {
+            for (String nowLine : modifiedList) {
+                writer.write(nowLine);
+                writer.newLine();
+            }
+            System.out.println("변경된 라인 수: " + count);
+            System.out.println("성공하였습니다.");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**
      * 파일 통계 계산 (라인 수, 단어 수, 문자 수)
      */
-    private static void countFileStats() {
+    private static void countFileStats() throws FileNotFoundException {
         // TODO: "파일 통계 계산하기" 타이틀을 출력하세요.
-
+        System.out.println("파일 통계 계산하기");
         // TODO: 파일이 존재하는지 확인하세요.
         // 파일이 존재하지 않으면 에러 메시지 출력 후 리턴
+        if (!new File("chapter7/labs/lab2/test.txt").exists()) {
+            throw new FileNotFoundException("파일이 없습니다.");
+        }
 
         // TODO: 파일 통계를 계산하세요.
         // 1. try-with-resources 구문 사용
@@ -282,26 +378,56 @@ public class TextFileIOLab {
         // 4. 단어 수 계산 (각 라인을 공백으로 분할하여 단어 카운트)
         // 5. 문자 수 계산 (각 라인의 길이 합산)
 
+        int lineCount = 0;
+        int wordCount = 0;
+        int vocabularyCount = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("chapter7/labs/lab2/test.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null && !line.isEmpty()) {
+                lineCount++;
+                wordCount += line.trim().split("").length;
+                vocabularyCount += line.trim().split(" ").length;
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
         // TODO: 계산된 통계 정보를 출력하세요.
         // 1. 라인 수
         // 2. 단어 수
         // 3. 문자 수
         // 4. 예외 처리
+        try {
+            System.out.println("라인 수: " + lineCount);
+            System.out.println("단어 수: " + vocabularyCount);
+            System.out.println("문자 수: " + wordCount);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * 파일에 내용 추가
      */
-    private static void appendToFile(Scanner scanner) {
+    private static void appendToFile(Scanner scanner) throws FileNotFoundException {
         // TODO: "파일에 내용 추가하기" 타이틀을 출력하세요.
-
+        System.out.println("파일에 내용 추가하기");
         // TODO: 파일이 존재하는지 확인하세요.
         // 파일이 존재하지 않으면 에러 메시지 출력 후 리턴
-
+        if (!new File("chapter7/labs/lab2/test.txt").exists()) {
+            throw new FileNotFoundException("파일이 없습니다.");
+        }
         // TODO: 사용자로부터 추가할 내용을 입력받으세요.
         // 1. 빈 줄이 입력될 때까지 사용자 입력을 받기
         // 2. 입력된 각 줄에 줄 번호 표시하기
         // 3. 입력받은 내용을 List<String>에 저장
+
+        List<String> inputList = new ArrayList<>();
+        String line = "";
+
+        while ((line = scanner.nextLine()) != null && !line.isEmpty()) {
+            inputList.add(line);
+        }
 
         // TODO: BufferedWriter를 사용하여 입력받은 내용을 파일에 추가하세요.
         // 1. try-with-resources 구문 사용
@@ -309,5 +435,16 @@ public class TextFileIOLab {
         // 3. 구분선("--- 추가된 내용 ---") 추가
         // 4. 리스트의 각 줄을 파일에 추가
         // 5. 예외 처리 및 성공 메시지 출력
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("chapter7/labs/lab2/test.txt", true))) {
+            writer.write("--- 추가된 내용 ---");
+            for (String nowLine : inputList) {
+                writer.write(nowLine);
+                writer.newLine();
+            }
+            System.out.println("성공하였습니다.");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
