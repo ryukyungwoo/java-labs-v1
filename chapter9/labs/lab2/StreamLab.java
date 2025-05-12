@@ -1,7 +1,7 @@
 package chapter9.labs.lab2;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -65,10 +65,11 @@ public class StreamLab {
         
         // TODO: 짝수만 필터링하여 제곱한 후 평균을 계산하세요.
         // 힌트: numbers.stream().filter(...).map(...).average()
+        System.out.println(numbers.stream().filter(n -> n % 2 == 0).collect(Collectors.averagingInt(n -> n * n)));
 
         // TODO: 문자열 리스트에서 길이가 3 이상인 문자열만 대문자로 변환하세요.
         // 힌트: cities.stream().filter(...).map(...)
-        
+        cities.stream().filter(city -> city.length() >= 3).map(String::toUpperCase).forEach(System.out::println);
         
         // 3. 객체 스트림 처리
         System.out.println("\n===== 객체 스트림 처리 =====");
@@ -87,13 +88,16 @@ public class StreamLab {
         
         // TODO: 학과별로 그룹화하여 학생 수를 계산하세요.
         // 힌트: students.stream().collect(Collectors.groupingBy(..., Collectors.counting()))
-        
+        Map<String, List<Student>> groupingStudents =  students.stream().collect(Collectors.groupingBy(Student::getDepartment));
+        groupingStudents.forEach((department, studentList) -> System.out.println(department + ": " + studentList));
+
         // TODO: 학과별로 그룹화한 후 평균 점수를 계산하세요.
         // 힌트: students.stream().collect(Collectors.groupingBy(..., Collectors.averagingInt(...)))
+        Map<String, Double> groupingDepartmentAvg = students.stream().collect(Collectors.groupingBy(Student::getDepartment, Collectors.averagingInt(Student::getScore)));
         
         // TODO: 학년별로 그룹화한 후 최고 점수를 받은 학생을 찾으세요.
         // 힌트: students.stream().collect(Collectors.groupingBy(..., Collectors.maxBy(...)))
-        
+        Map<Integer, Optional<Student>> groupingGradeMaxScore = students.stream().collect(Collectors.groupingBy(Student::getGrade, Collectors.maxBy(Comparator.comparing(Student::getScore))));
         
         // 4. 텍스트 파일 단어 빈도수 계산
         System.out.println("\n===== 텍스트 파일 단어 빈도수 =====");
@@ -106,6 +110,7 @@ public class StreamLab {
                     
         // TODO: 텍스트에서 단어를 추출하여 빈도수를 계산하세요. (대소문자 구분 없이)
         // 힌트: Arrays.stream(text.split("\\s+|\\.|,")).filter(...).collect(Collectors.groupingBy(...))
+        Map<String, Long> wordCounting =  Arrays.stream(text.split("\\s+|\\.|,")).filter(String::isBlank).collect(Collectors.groupingBy(word -> word, Collectors.counting()));
 
     }
 } 

@@ -66,7 +66,7 @@ public class LibraryManager {
         }
 
         Book book1;
-        
+
         if((book1 = books.stream().filter(book -> book.getIsbn().equals(isbn)).toList().get(0)) != null) {
             borrowBooks.add(book1);
             userBorrowMap.put(userId, borrowBooks);
